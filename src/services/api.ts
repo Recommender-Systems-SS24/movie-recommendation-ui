@@ -7,11 +7,6 @@ export const searchMovies = async (query: string) => {
     return response.data;
 };
 
-export const likeMovie = async (userId: string, movieId: string) => {
-    await axios.post(`${API_URL}/like`, { user_id: userId, movie_id: movieId });
-};
-
-export const getRecommendations = async (userId: string) => {
-    const response = await axios.get(`${API_URL}/recommend`, { params: { user_id: userId } });
-    return response.data;
+export const getMoviePosterURL = (movieID: string): string => {
+    return `${API_URL}/poster?movieID=${movieID}`;
 };

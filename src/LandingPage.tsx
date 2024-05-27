@@ -7,8 +7,9 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AppAppBar from './components/AppAppBar';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import MovieDetails from './components/MovieDetails';
+import MovieSearch from './components/MovieSearch';
 import SearchResults from './components/SearchResults';
+import { SearchProvider } from './components/SearchContext';
 
 export default function LandingPage() {
   const [mode, setMode] = React.useState<PaletteMode>('light');
@@ -24,8 +25,10 @@ export default function LandingPage() {
       <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
       <Header />
       <Box sx={{ bgcolor: 'background.default' }}>
-        <MovieDetails />
-        <SearchResults />
+        <SearchProvider>
+          <MovieSearch />
+          <SearchResults />
+        </SearchProvider>
         <Divider sx={{
           pb: { xs: 4, sm: 6 },
         }} />

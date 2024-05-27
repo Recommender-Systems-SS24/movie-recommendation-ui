@@ -5,46 +5,18 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import StarIcon from '@mui/icons-material/Star';
-
-import { favorites } from './data';
-import { IconButton, Rating } from '@mui/material';
+import { useSearch } from './SearchContext';
+import { getMoviePosterURL } from '../services/api';
 import { useState } from 'react';
-import React from 'react';
 
 export default function SearchResults() {
 
-  var userFavorites = favorites.map(movie => movie.UserFavourite);
-  var userRatings = favorites.map(movie => movie.UserRating);
+  const { searchResults } = useSearch();
 
-  const [userFavourite, setUserFavourite] = useState<boolean[]>(userFavorites);
-  const [userRating, setUserRating] = useState<number[]>(userRatings);
-
-  React.useEffect(() => {
-  }, [userFavourite, userRating]);
-
-  const updateUserRating = (newRating: number, index: number) => {
-    userRatings[index] = newRating;
-    setUserRating(userRatings);
-
-    console.log(userRating);
-
-    if (favorites != null) {
-      favorites[index].UserRating = newRating;
-    }
-  };
-
-  const toggleFavourite = (index: number) => {
-    userFavorites[index] = !userFavorites[index];
-    setUserFavourite(userFavorites);
-
-    console.log(userFavourite);
-
-    if (favorites != null) {
-      favorites[index].UserFavourite = !favorites[index].UserFavourite;
-    }
+  const [posterLoaded, setPosterLoaded] = useState<{ [key: string]: boolean }>({});
+  const defaultPoster = '/default-poster.png';
+  const handlePosterLoad = (movieID: string) => {
+    setPosterLoaded({ ...posterLoaded, [movieID]: true });
   };
 
   return (
@@ -77,7 +49,7 @@ export default function SearchResults() {
           </Typography>
         </Box>
         <Grid container spacing={2.5}>
-          {favorites.map((item, index) => (
+          {searchResults.map((item, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <Stack
                 direction="column"
@@ -95,33 +67,23 @@ export default function SearchResults() {
                   boxShadow: 'none',
                 }}
               >
-                  <Typography fontWeight="medium" gutterBottom>
-                    {item.Title}
-                  </Typography>
 
-                  <img src={(item.Poster)} alt={item.Title} style={{ borderRadius: '10px', flexGrow: 1 }} />
+                <img
+                  src={(getMoviePosterURL(item.MovieID))}
+                  onLoad={() => handlePosterLoad(item.MovieID)}
+                  alt={item.Title}
+                  style={{ borderRadius: '10px', flexGrow: 1, display: posterLoaded[item.MovieID] ? "block" : "none" }}
+                />
 
-                  <div style={{ textAlign: 'left', display: 'flex', justifyContent: 'space-between', flexDirection: 'row', gap: '20px', paddingTop: '25px' }}>
-                    <div>
-                      <Rating
-                        name="text-feedback"
-                        size='large'
-                        value={userRating[index]}
-                        onChange={(_, f) => updateUserRating(f?.valueOf() ?? 0, index)}
-                        emptyIcon={<StarIcon style={{ opacity: 1, color: 'grey', fontSize: 'inherit' }} />}
-                      />
-                    </div>
-                    <div>
-                      <IconButton aria-label="delete" size='small' onClick={() => toggleFavourite(index)}>
-                        {userFavourite[index] ? (
-                          <FavoriteIcon style={{ color: '#ff3d47' }} />
-                        ) : (
-                          <FavoriteBorderIcon style={{ color: 'white' }} />
-                        )}
-                      </IconButton>
-                    </div>
+                <img
+                  src={(defaultPoster)}
+                  alt={item.Title}
+                  style={{ borderRadius: '10px', flexGrow: 1, display: posterLoaded[item.MovieID] ? "none" : "block" }}
+                />
 
-                  </div>
+                <Typography fontWeight="medium" gutterBottom>
+                  {item.Title}
+                </Typography>
               </Stack>
             </Grid>
           ))}

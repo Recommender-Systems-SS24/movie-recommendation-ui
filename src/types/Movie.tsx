@@ -1,5 +1,4 @@
 export interface Movie {
-    Genres: string;
-    MovieID: number;
+    MovieID: string;
     Title: string;
 }
