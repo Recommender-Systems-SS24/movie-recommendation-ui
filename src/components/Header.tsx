@@ -7,21 +7,15 @@ export default function Header() {
   return (
     <Box
       id="header"
-      sx={(theme) => ({
+      sx={{
         width: '100%',
-        backgroundImage:
-          theme.palette.mode === 'light'
-            ? 'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 90%), transparent)'
-            : 'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 16%), transparent)',
-        backgroundRepeat: 'no-repeat',
-      })}
+      }}
     >
       <Container
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          pt: { xs: 10, sm: 15 },
         }}
       >
         <Stack

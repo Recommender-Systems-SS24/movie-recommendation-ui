@@ -18,6 +18,7 @@ export default function SearchResults() {
         pb: { xs: 4, sm: 6 },
         color: 'white',
         bgcolor: 'hsl(220, 30%, 2%)',
+        display: searchResults.length ? 'block' : 'none',
       }}
     >
       <Container

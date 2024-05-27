@@ -41,6 +41,7 @@ export default function MovieSearch() {
         pt: { xs: 2, sm: 4 },
         pb: { xs: 4, sm: 6 },
         color: 'white',
+        flexGrow: 1,
       }}
     >
 

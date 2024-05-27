@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { PaletteMode } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -10,6 +11,7 @@ import Footer from './components/Footer';
 import MovieSearch from './components/MovieSearch';
 import SearchResults from './components/SearchResults';
 import { SearchProvider } from './components/SearchContext';
+import NotFound from './NotFound';
 
 export default function LandingPage() {
   const [mode, setMode] = React.useState<PaletteMode>('light');
@@ -23,12 +25,32 @@ export default function LandingPage() {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
-      <Header />
-      <Box sx={{ bgcolor: 'background.default' }}>
-        <SearchProvider>
-          <MovieSearch />
-          <SearchResults />
-        </SearchProvider>
+      <Box sx={(theme) => ({
+        bgcolor: 'background.default',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        backgroundImage:
+          theme.palette.mode === 'light'
+            ? 'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 90%), transparent)'
+            : 'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 16%), transparent)',
+        backgroundRepeat: 'no-repeat',
+        pt: { xs: 10, sm: 15 },
+      })}
+      >
+        <Router>
+          <Routes>
+            <Route path="/" element={
+              <SearchProvider>
+                <Header />
+                <MovieSearch />
+                <SearchResults />
+              </SearchProvider>
+            } />
+            <Route path="/movie/:movieID" element={<Footer />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
         <Divider sx={{
           pb: { xs: 4, sm: 6 },
         }} />
