@@ -7,6 +7,16 @@ export const searchMovies = async (query: string) => {
     return response.data;
 };
 
+export const getMovieDetails = async (movieID: string) => {
+    const response = await axios.get(`${API_URL}/details`, { params: { movieID } });
+    return response.data;
+};
+
+export const getSimilarMovies = async (movieID: string) => {
+    const response = await axios.get(`${API_URL}/recommend`, { params: { movieID } });
+    return response.data;
+};
+
 export const getMoviePosterURL = (movieID: string): string => {
     return `${API_URL}/poster?movieID=${movieID}`;
 };

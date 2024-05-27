@@ -12,6 +12,7 @@ import MovieSearch from './components/MovieSearch';
 import SearchResults from './components/SearchResults';
 import { SearchProvider } from './components/SearchContext';
 import NotFound from './NotFound';
+import MovieDetails from './components/MovieDetails';
 
 export default function LandingPage() {
   const [mode, setMode] = React.useState<PaletteMode>('light');
@@ -47,7 +48,7 @@ export default function LandingPage() {
                 <SearchResults />
               </SearchProvider>
             } />
-            <Route path="/movie/:movieID" element={<Footer />} />
+            <Route path="/movie/:movieID" element={<MovieDetails />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>

@@ -40,9 +40,12 @@ export default function SearchResults() {
             Search results
           </Typography>
         </Box>
-        <Grid container spacing={2.5}>
+
+        <Grid container spacing={2} columns={{ xs: 8, sm: 16, md: 16 }}>
           {searchResults.map((movie, _) => (
-            <MovieComponent movie={movie} key={movie.MovieID} />
+            <Grid item xs={2} sm={4} md={4} key={movie.MovieID}>
+              <MovieComponent movie={movie} />
+            </Grid>
           ))}
         </Grid>
       </Container>
