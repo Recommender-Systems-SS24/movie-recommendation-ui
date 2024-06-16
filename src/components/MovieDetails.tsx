@@ -46,8 +46,10 @@ const PlayButton = styled(IconButton)(({ theme }) => ({
 }));
 
 const PlayIcon = styled(YouTubeIcon)(({ theme }) => ({
-  fontSize: '6rem',
+  fontSize: '8rem',
 }));
+
+const defaultPoster = '/default-poster.png';
 
 export default function MovieDetails() {
 
@@ -100,7 +102,14 @@ export default function MovieDetails() {
     }).catch((error) => {
       console.error(error);
     });
+
+    window.scrollTo(0, 0);
   }, [movieID]);
+
+  const [posterLoaded, setPosterLoaded] = useState(false);
+  const handlePosterLoaded = () => {
+    setPosterLoaded(true);
+  };
 
   return (
     <Box
@@ -147,7 +156,20 @@ export default function MovieDetails() {
                 >
                   <div style={{ boxShadow: '0 0 150px 100px rgba(74, 144, 226, 0.2)', borderRadius: '10px', minWidth: '230px' }}>
                     <ThumbnailContainer>
-                      <Image src={(movieData.Poster)} alt={movieData.Title} style={{ borderRadius: '10px' }} />
+                      <Image
+                        src={(movieData.Poster)}
+                        alt={movieData.Title}
+                        style={{ borderRadius: '10px' }}
+                        onLoad={() => handlePosterLoaded()}
+                        sx={{ display: posterLoaded ? 'initial' : 'none'}}
+                      />
+
+                      <Image
+                        src={(defaultPoster)}
+                        alt={movieData.Title}
+                        style={{ borderRadius: '10px' }}
+                        sx={{ display: posterLoaded ? 'none' : 'initial'}}
+                      />
                       <PlayButton className="playButton" onClick={() => window.open(movieData.TrailerURL, '_blank')}>
                         <PlayIcon />
                       </PlayButton>
@@ -200,7 +222,7 @@ export default function MovieDetails() {
             </Grid>
           </Grid>
 
-          <Grid container spacing={2.5} sx={{ pt: 5 }}>
+          <Grid container sx={{ pt: 2 }}>
             {recommendedMovies && recommendedMovies.map((movieArray, index) => (
               <RecommendedMovies movies={movieArray} name={(index + 1).toString()} key={movieArray[0].MovieID} />
             ))}

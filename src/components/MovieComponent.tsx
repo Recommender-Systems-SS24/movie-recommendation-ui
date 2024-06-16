@@ -31,15 +31,12 @@ const MovieComponent: React.FC<MovieComponentProps> = ({ movie }) => {
       direction="column"
       color="inherit"
       component={Card}
-      spacing={1}
-      useFlexGap
       sx={{
-        p: 3,
+        p: 1,
         height: '100%',
         border: '1px solid',
         borderColor: 'hsla(220, 25%, 25%, .3)',
         background: 'transparent',
-        backgroundColor: 'grey.900',
         boxShadow: 'none',
       }}
     >
@@ -58,7 +55,7 @@ const MovieComponent: React.FC<MovieComponentProps> = ({ movie }) => {
         onClick={handleImageClick}
       />
 
-      <Typography fontWeight="medium" gutterBottom>
+      <Typography fontWeight="medium">
         {movie.Title}
       </Typography>
     </Stack>
