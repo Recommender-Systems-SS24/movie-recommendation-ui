@@ -3,25 +3,40 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 
 import MovieComponent from './MovieComponent';
-import { Movie } from '../types/Movie';
+import { MovieRecommendationList } from '../types/Movie';
+import React, { useState } from 'react';
+import { getSimilarMovies } from '../services/api';
 
-export default function RecommendedMovies({ movies, name }: { movies: Movie[], name: string }) {
+export default function RecommendedMovies({ movieID, listNr }: { movieID: string, listNr: number}) {
+
+  const [recommendedMovies, setRecommendedMovies] = useState<MovieRecommendationList>();
+
+  React.useEffect(() => {
+
+    setRecommendedMovies(undefined);
+
+    getSimilarMovies(movieID, listNr).then((jsonData) => {
+      setRecommendedMovies(jsonData as MovieRecommendationList);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }, [movieID]);
 
   return (
     <Box
       id="recommended-movies"
       color="inherit"
       sx={{
-        display: movies.length ? 'initial' : 'none',
+        display: recommendedMovies ? 'initial' : 'none',
       }}
     >
       <Container>
         <p style={{ textAlign: 'left', fontSize: '1.5rem', fontWeight: 'bold' }}>
-          Recommendations list {name}
+          {recommendedMovies?.Name}
         </p>
 
         <Grid container columns={{ xs: 10, sm: 20, md: 20 }}>
-          {movies.map((movie, _) => (
+          {recommendedMovies?.List.map((movie, _) => (
             <Grid item xs={2} sm={4} md={4} key={movie.MovieID}>
               <MovieComponent movie={movie} />
             </Grid>

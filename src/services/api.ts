@@ -12,8 +12,8 @@ export const getMovieDetails = async (movieID: string) => {
     return response.data;
 };
 
-export const getSimilarMovies = async (movieID: string) => {
-    const response = await axios.get(`${API_URL}/recommend`, { params: { movieID } });
+export const getSimilarMovies = async (movieID: string, listNr: number) => {
+    const response = await axios.get(`${API_URL}/recommend`, { params: { movieID, listNr } });
     return response.data;
 };
 

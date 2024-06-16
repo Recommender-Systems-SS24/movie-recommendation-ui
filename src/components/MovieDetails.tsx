@@ -12,9 +12,8 @@ import YouTubeIcon from '@mui/icons-material/PlayCircleOutline';
 import StarIcon from '@mui/icons-material/Star';
 
 import { useState } from 'react';
-import { getMovieDetails, getMoviePosterURL, getSimilarMovies } from '../services/api';
+import { getMovieDetails, getMoviePosterURL } from '../services/api';
 import { useParams } from 'react-router-dom';
-import { Movie } from '../types/Movie';
 import RecommendedMovies from './RecommendedMovies';
 
 const ThumbnailContainer = styled(Box)(({ theme }) => ({
@@ -71,15 +70,8 @@ export default function MovieDetails() {
   }
 
   const [movieData, setMovieData] = useState<MovieData>();
-  const [recommendedMovies, setRecommendedMovies] = useState<Movie[][]>();
 
   React.useEffect(() => {
-
-    getSimilarMovies(movieID ?? '').then((jsonData) => {
-      setRecommendedMovies(jsonData);
-    }).catch((error) => {
-      console.error(error);
-    });
 
     getMovieDetails(movieID ?? '').then((jsonData) => {
       const movieData: MovieData = {
@@ -161,14 +153,14 @@ export default function MovieDetails() {
                         alt={movieData.Title}
                         style={{ borderRadius: '10px' }}
                         onLoad={() => handlePosterLoaded()}
-                        sx={{ display: posterLoaded ? 'initial' : 'none'}}
+                        sx={{ display: posterLoaded ? 'initial' : 'none' }}
                       />
 
                       <Image
                         src={(defaultPoster)}
                         alt={movieData.Title}
                         style={{ borderRadius: '10px' }}
-                        sx={{ display: posterLoaded ? 'none' : 'initial'}}
+                        sx={{ display: posterLoaded ? 'none' : 'initial' }}
                       />
                       <PlayButton className="playButton" onClick={() => window.open(movieData.TrailerURL, '_blank')}>
                         <PlayIcon />
@@ -223,8 +215,8 @@ export default function MovieDetails() {
           </Grid>
 
           <Grid container sx={{ pt: 2 }}>
-            {recommendedMovies && recommendedMovies.map((movieArray, index) => (
-              <RecommendedMovies movies={movieArray} name={(index + 1).toString()} key={movieArray[0].MovieID} />
+            {[1, 2, 3, 4, 5].map((listNr) => (
+              <RecommendedMovies movieID={movieData.ID} listNr={listNr} key={listNr} />
             ))}
           </Grid>
         </Container>
