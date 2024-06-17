@@ -6,8 +6,9 @@ import MovieComponent from './MovieComponent';
 import { MovieRecommendationList } from '../types/Movie';
 import React, { useState } from 'react';
 import { getSimilarMovies } from '../services/api';
+import { Typography } from '@mui/material';
 
-export default function RecommendedMovies({ movieID, listNr }: { movieID: string, listNr: number}) {
+export default function RecommendedMovies({ movieID, listNr }: { movieID: string, listNr: number }) {
 
   const [recommendedMovies, setRecommendedMovies] = useState<MovieRecommendationList>();
 
@@ -25,24 +26,31 @@ export default function RecommendedMovies({ movieID, listNr }: { movieID: string
   return (
     <Box
       id="recommended-movies"
-      color="inherit"
-      sx={{
-        display: recommendedMovies ? 'initial' : 'none',
-      }}
+      bgcolor={'hsl(220, 30%, 2%)'}
     >
-      <Container>
-        <p style={{ textAlign: 'left', fontSize: '1.5rem', fontWeight: 'bold' }}>
-          {recommendedMovies?.Name}
-        </p>
+      {
+        recommendedMovies && (
+          <Container
+            sx={{
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Typography component="h4" variant="h5" align='left' pt={3} pb={1}>
+              {recommendedMovies?.Name}
+            </Typography>
 
-        <Grid container columns={{ xs: 10, sm: 20, md: 20 }}>
-          {recommendedMovies?.List.map((movie, _) => (
-            <Grid item xs={2} sm={4} md={4} key={movie.MovieID}>
-              <MovieComponent movie={movie} />
+            <Grid container columns={5}>
+              {recommendedMovies?.List.map((movie, _) => (
+                <Grid item xs={1} sm={1} md={1} key={movie.MovieID}>
+                  <MovieComponent movie={movie} />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </Container>
+          </Container>
+        )
+      }
     </Box>
   );
 }

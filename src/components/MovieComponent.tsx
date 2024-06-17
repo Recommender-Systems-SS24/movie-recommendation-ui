@@ -3,6 +3,7 @@ import { Movie } from '../types/Movie';
 import { getMoviePosterURL } from '../services/api';
 import { Stack, Card, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import styles from './MovieComponent.module.css';
 
 interface MovieComponentProps {
   movie: Movie;
@@ -28,14 +29,15 @@ const MovieComponent: React.FC<MovieComponentProps> = ({ movie }) => {
 
   return (
     <Stack
+      className={styles.movieComponent}
       direction="column"
       color="inherit"
       component={Card}
       sx={{
         p: 1,
         height: '100%',
-        border: '1px solid',
         borderColor: 'hsla(220, 25%, 25%, .3)',
+        width: '100%',
         background: 'transparent',
         boxShadow: 'none',
       }}
@@ -55,7 +57,7 @@ const MovieComponent: React.FC<MovieComponentProps> = ({ movie }) => {
         onClick={handleImageClick}
       />
 
-      <Typography fontWeight="medium">
+      <Typography fontWeight="medium" paddingTop={1}>
         {movie.Title}
       </Typography>
     </Stack>

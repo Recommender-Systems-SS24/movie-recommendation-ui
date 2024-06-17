@@ -14,6 +14,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ToggleColorMode from './ToggleColorMode';
 
 import Sitemark from './SitemarkIcon';
+import { useNavigate } from 'react-router-dom';
 
 interface AppAppBarProps {
   mode: PaletteMode;
@@ -40,6 +41,8 @@ export default function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
       setOpen(false);
     }
   };
+
+  const navigate = useNavigate();
 
   return (
     <AppBar
@@ -89,7 +92,7 @@ export default function AppAppBar({ mode, toggleColorMode }: AppAppBarProps) {
                 variant="text"
                 color="info"
                 size="small"
-                onClick={() => scrollToSection('header')}
+                onClick={() => navigate('/')}
               >
                 Movie search
               </Button>
