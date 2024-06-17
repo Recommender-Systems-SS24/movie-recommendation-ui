@@ -27,7 +27,7 @@ export default function MovieDetails() {
         pb: { xs: 4, sm: 6 },
         color: 'white',
         bgcolor: 'hsl(220, 30%, 2%)',
-        display: movieID ? 'block' : 'none',
+        display: movieID ? 'initial' : 'none',
       }}
     >
       <Container

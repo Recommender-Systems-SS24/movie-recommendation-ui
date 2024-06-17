@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Movie } from '../types/Movie';
 import { getMoviePosterURL } from '../services/api';
-import { Stack, Card, Typography } from '@mui/material';
+import { Stack, Card, Typography, Container, Rating } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import styles from './MovieComponent.module.css';
 
@@ -34,28 +34,39 @@ const MovieComponent: React.FC<MovieComponentProps> = ({ movie }) => {
       color="inherit"
       component={Card}
       sx={{
-        p: 1,
-        height: '100%',
         borderColor: 'hsla(220, 25%, 25%, .3)',
-        width: '100%',
         background: 'transparent',
         boxShadow: 'none',
       }}
     >
-      <img
-        src={(defaultPoster)}
-        alt={movie.Title}
-        style={{ borderRadius: '10px', flexGrow: 1, display: posterLoaded ? "none" : "initial", cursor: 'pointer' }}
-        onClick={handleImageClick}
-      />
+      <Container className={styles.posterContainer}>
+        <img
+          className={styles.posterImage}
+          src={(defaultPoster)}
+          alt={movie.Title}
+          style={{ borderRadius: '10px', display: posterLoaded ? "none" : "initial", cursor: 'pointer' }}
+          onClick={handleImageClick}
+        />
 
-      <img
-        src={(posterURL)}
-        onLoad={() => handlePosterLoaded()}
-        alt={movie.Title}
-        style={{ borderRadius: '10px', flexGrow: 1, display: posterLoaded ? "initial" : "none", cursor: 'pointer' }}
-        onClick={handleImageClick}
-      />
+        <img
+          className={styles.posterImage}
+          src={(posterURL)}
+          onLoad={() => handlePosterLoaded()}
+          alt={movie.Title}
+          style={{ borderRadius: '10px', display: posterLoaded ? "initial" : "none", cursor: 'pointer' }}
+          onClick={handleImageClick}
+        />
+
+        <Container className={styles.hoverComponentTop}>
+          <Rating name="read-only" value={movie.Rating} precision={0.1} readOnly size='small' />
+        </Container>
+
+        <Container className={styles.hoverComponentBottom}>
+          <Typography fontSize={10}>
+            {movie.Genres.join(', ')}
+          </Typography>
+        </Container>
+      </Container>
 
       <Typography fontWeight="medium" paddingTop={1}>
         {movie.Title}
