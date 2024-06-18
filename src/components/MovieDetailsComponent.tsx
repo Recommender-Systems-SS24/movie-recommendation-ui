@@ -39,6 +39,11 @@ const PlayIcon = styled(YouTubeIcon)(({ theme }) => ({
   fontSize: '8rem',
 }));
 
+interface Keyword {
+  id: number;
+  name: string;
+}
+
 interface MovieData {
   ID: string;
   Title: string;
@@ -52,6 +57,7 @@ interface MovieData {
   Poster: string;
   Rating: number;
   TrailerURL: string;
+  Keywords: Keyword[];
 }
 
 export default function MovieDetailsComponent(): JSX.Element {
@@ -76,6 +82,7 @@ export default function MovieDetailsComponent(): JSX.Element {
         Poster: getMoviePosterURL(movieId ?? ''),
         Rating: jsonData.movielens.avgRating,
         TrailerURL: "https://www.youtube.com/watch?v=" + jsonData.movielens.youtubeTrailerIds[0],
+        Keywords: jsonData.tmdb.keywords,
       };
 
       setMovieData(movieData);
@@ -171,6 +178,10 @@ export default function MovieDetailsComponent(): JSX.Element {
                 <div>
                   <Typography fontWeight="medium" gutterBottom>
                     {movieData.ReleaseYear + ' | ' + movieData.Rated + ' | ' + movieData.Runtime + ' | ' + movieData.Genres}
+                  </Typography>
+
+                  <Typography fontWeight="medium" gutterBottom>
+                    Keywords: {movieData.Keywords.map((keyword) => keyword.name).join(", ")}
                   </Typography>
 
                   <Typography fontWeight="medium" gutterBottom>
