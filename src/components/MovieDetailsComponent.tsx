@@ -58,6 +58,7 @@ interface MovieData {
   Rating: number;
   TrailerURL: string;
   Keywords: Keyword[];
+  Writers: string[];
 }
 
 export default function MovieDetailsComponent(): JSX.Element {
@@ -83,6 +84,7 @@ export default function MovieDetailsComponent(): JSX.Element {
         Rating: jsonData.movielens.avgRating,
         TrailerURL: "https://www.youtube.com/watch?v=" + jsonData.movielens.youtubeTrailerIds[0],
         Keywords: jsonData.tmdb.keywords,
+        Writers: jsonData.imdb.writers,
       };
 
       setMovieData(movieData);
@@ -170,9 +172,11 @@ export default function MovieDetailsComponent(): JSX.Element {
                     </div>
                   </div>
 
-                  <Typography fontWeight="medium" gutterBottom>
-                    {movieData.Plot}
-                  </Typography>
+                  {movieData.Plot && (
+                    <Typography fontWeight="medium" gutterBottom>
+                      {movieData.Plot}
+                    </Typography>
+                  )}
                 </div>
 
                 <div>
@@ -180,17 +184,29 @@ export default function MovieDetailsComponent(): JSX.Element {
                     {movieData.ReleaseYear + ' | ' + movieData.Rated + ' | ' + movieData.Runtime + ' | ' + movieData.Genres}
                   </Typography>
 
-                  <Typography fontWeight="medium" gutterBottom>
-                    Keywords: {movieData.Keywords.map((keyword) => keyword.name).join(", ")}
-                  </Typography>
+                  {movieData.Keywords && (
+                    <Typography fontWeight="medium" gutterBottom>
+                      Keywords: {movieData.Keywords.map((keyword) => keyword.name).join(", ")}
+                    </Typography>
+                  )}
 
-                  <Typography fontWeight="medium" gutterBottom>
-                    Directors: {movieData.Directors}
-                  </Typography>
+                  {movieData.Directors && (
+                    <Typography fontWeight="medium" gutterBottom>
+                      Directors: {movieData.Directors}
+                    </Typography>
+                  )}
 
-                  <Typography fontWeight="medium" gutterBottom>
-                    Starring: {movieData.Actors}
-                  </Typography>
+                  {movieData.Writers && (
+                    <Typography fontWeight="medium" gutterBottom>
+                      Writers: {movieData.Writers.join(", ")}
+                    </Typography>
+                  )}
+
+                  {movieData.Actors && (
+                    <Typography fontWeight="medium" gutterBottom>
+                      Starring: {movieData.Actors}
+                    </Typography>
+                  )}
                 </div>
               </div>
             </Stack>
