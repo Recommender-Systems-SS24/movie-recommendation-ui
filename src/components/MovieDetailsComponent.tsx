@@ -69,6 +69,8 @@ export default function MovieDetailsComponent(): JSX.Element {
 
   React.useEffect(() => {
 
+    if (!movieId) return;
+
     getMovieDetails(movieId ?? '').then((jsonData) => {
       const movieData: MovieData = {
         ID: movieId ?? '',
@@ -88,7 +90,6 @@ export default function MovieDetailsComponent(): JSX.Element {
       };
 
       setMovieData(movieData);
-      console.log(movieData);
     }).catch((error) => {
       console.error(error);
     });
